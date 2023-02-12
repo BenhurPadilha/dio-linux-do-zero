@@ -22,50 +22,200 @@ tab completa o texto
 comando cat
 comando para visualizar o conte�do de um arquivo de texto
 
-3 - Filtrando a exibi��o de arquivos
+3 - Filtrando a exibição de arquivos
 
-cd ~ volta para a pasta do us�rio
+cd ~ volta para a pasta do usário
+
 Filtros do comando ls
 comando ls pode ser utilizado com o nome (ou parte) do arquivo: ls Nome do arquivo
 comando ls Nome do arquivo*
-ao usar o asterisco, ir� listar o que houver dentro de diret�rios
+ao usar o asterisco, irá listar o que houver dentro de diretórios
 comando ls p?o*
-a interroga��o ir� buscar nesse caso arquivos iniciados com p e a segunda letra pode ser qualquer coisa e a terceira dve ser a letra o
+a interrogação irá buscar nesse caso arquivos iniciados com p e a segunda letra pode ser qualquer coisa e a terceira dve ser a letra o
 comando ls ?rh*
 primeira=qualquer, segunda=r, terceira=h
 
-Como exemplo, imagine um diret�rio contendo os arquivos:
+Como exemplo, imagine um diretório contendo os arquivos:
 arquivo1.txt
 arquivo2.txt
 arquivo3.txt
 arquivo4.txt
 arquivo5.txt
 comando ls arquivo[1-3]*
-com esse comando ser� filtrado e mostrado apenas os arquivos 1, 2 e 3
+com esse comando será filtrado e mostrado apenas os arquivos 1, 2 e 3
 comando ls arquivo[2,5]
-com esse comando ser� filtrado e mostrado apenas os arquivos 2 e 5
+com esse comando será filtrado e mostrado apenas os arquivos 2 e 5
 comando ls arquivo[^2-5]
-com esse comando ser� filtrado e mostrado todos os arquivos menos os arquivos do 3 ao 5
+com esse comando será filtrado e mostrado todos os arquivos menos os arquivos do 3 ao 5
 comando ls arquivo[^2,5]
-com esse comando ser� filtrado e mostrado todos os arquivos menos os arquivos 2 e 5
+com esse comando será filtrado e mostrado todos os arquivos menos os arquivos 2 e 5
 
-comando touch Nome do arquivo.Extens�o do arquivo
+comando touch Nome do arquivo.Extensão do arquivo
 cria um arquivo em branco
 
-Se o ambiente n�o possuir barra de rolagem:
+Se o ambiente não possuir barra de rolagem:
 comando ls | more
 esse comando habilita uma filtragem dos dados a apresentar ajustados ao tamanho do terminal
-comando ctrl+C fecha a visualiza��o
+comando ctrl+C fecha a visualização
 
 4 - Localizando arquivos
-Para localizar um arquivo n�o � necess�rio estar necessariamente dentro do diret�rio onde o arquivo est�
-Para isso � preciso indicar ap�s o ls o caminho da pasta onde se vai buscar
+Para localizar um arquivo não é necessário estar necessariamente dentro do diretório onde o arquivo está
+Para isso é preciso indicar após o ls o caminho da pasta onde se vai buscar
 ls /caminho da pasta
-Se n�o se sabe exatamente onde est� o arquivo:
+Se não se sabe exatamente onde está o arquivo:
 comando find -name Nome (ou parte) do arquivo*
-A busca ocorre a partir do diret�rio que se est� no momento
-*Se o usu�rio n�o for root pode haver erro de acesso a diret�rios do sistema
+A busca ocorre a partir do diretório que se está no momento
+*Se o usuário não for root pode haver erro de acesso a diretórios do sistema
 Listar todos os arquivos, incluindo arquivos ocultos
 comando ls -a
 
+5 - Criando diretórios
+Para criar um diretório no diretório em que se está:
+comando mkdir Nome do diretório a criar
+Para criar um diretório em qualquer diretório (a qualquer que se tenha acesso):
+comando mkdir /Caminho até o diretório onde se quer ciriar/Nome do diretório a criar
+Para criar um diretório com espaço no meio do nome, utilizar aspas simples:
+comando mkdir 'Nome do diretório'
+Sem colocar as aspas, o sistema tentará criar, nese caso, uma pasta chamada Nome, uma chamada do e uma chamada diretório
+*Podem ser criados vários diretórios de uma vez só
+comando mkdir Nome do diretório a criar1 Nome do diretório a criar2
+
+6 - Excluindo arquivos e diretórios
+Para excluir um arquivo:
+comando rm Nome do arquivo
+
+Pode ser utilizado filtro:
+comando rm *.txt
+Esse exemplo excluirá todos os arquivos com extensão .txt no diretório em que se está
+
+
+Para excluir um diretório vazio:
+Deve-se estar fora do diretório que se quer apagar
+comando rmdir Nome do diretório
+se o diretório não estiver vazio:
+Ou se entra no diretório e excui-se manualmente os arquivos e diretórios do conteúdo,
+ou se utiliza:
+comando rm -rf Nome do diretório
+atributo r (recursivo) apagará recursivamente tudo que estiver dentro do diretório indicado
+atributo f (force) 
+
+7 - Obtendo ajuda
+ao digitar um comando seguido de help se tem ajuda sobre os parâmetros para o comando
+exemplo:
+ls --help
+*Não todos os comandos que possuem essa opção
+Para esses casos pode ser usado o comando man
+É como um manual do comando indicado
+exemplo:
+man ls
+tecla q sai da visualização
+Outra opção de ajuda é na documentação
+
+8 - Executando tarefas administrativas como root
+Usuários definidos como administradores do sistema (grupo adm e grupo sudo) podem executar tarefas como root
+Para verificar os usuários nos grupos
+comando cat /etc/group
+para invocar acesso de administrador utilizar o comando sudo antes do comadndo
+pode ser necessário informar a senha de usuário
+para verificar as configurações do comando sudo:
+comando sudo cat /etc/sudoers
+
+9 - Logando como usuário root
+Não é aconselhado deixar sempre logado como root
+Para logar como root:
+No Ubuntu é preciso dar uma senha para o usuário root
+comando sudo passwd root
+Primeiro deve ser fornecida a senha de usuário, após definir a senha para o root
+Para acessar como root:
+comando su
+Fornecer a senha do usuário root
+Para voltar como usuário convencional:
+comando su Nome do usuário
+
+10 - Liberando acesso remoto do usuário root
+No servidor é bloqueado esse acesso como root, para segurança
+Para liberar o acesso remoto existe um serviço de acesso remoto chamado sshd
+Para visualizar o arquivo de configuração:
+comando cat /etc/ssh/sshd_config
+Parâmetro #PermitRootLogin deve ser definido como:
+PermitRootLogin yes
+Como o parâmetro cat só permite visualizar um arquivo de texto, é preciso abri-lo no editor:
+comando sudo nano /etc/ssh/sshd_config
+Para fechar ^X (ctrl+X)
+Para salvar ^O (ctrl+O)
+Reiniciar o sistema ou dar restart no serviço:
+Para visualizar o status:
+systemctl status sshd
+^C(ctrl+C) para sair
+Para dar restart:
+comando sudo systemctl restart sshd
+
+11 - Trabalhando com arquivos de texto
+Todas as configurações no Linux são feitas via arquivos de texto
+Editores de texto: vi, nano
+vi:
+Para criar um arquivo de texto pelo vi:
+comando vi Nome do arquivo.txt
+se o nome de arquivo indicad já existir, será aberto esse arquivo
+Para iniciar o modo de edição no vi, usar a tecla i
+Para sair do modo de edição, tecla Esc
+Para abrir o menu, tecla : (dois pontos)
+Para salvar e sair:
+Teclas :Wq
+nano:
+Para criar um arquivo de texto pelo vi:
+comando nano Nome do arquivo.txt
+se o nome de arquivo indicad já existir, será aberto esse arquivo
+Salvar: write out
+
+12 - Histórico de comandos
+comando history armazena o histórico de comando do usuário (últimos 1000 comandos)
+usuário root pode visualizar o histórico de todos os usuários, alternando para o usuário e utilizando o comando history
+Para filtrar a quantidade:
+comando history Quantidade dos comandos
+Para reutilizar um dos comandos listados:
+digitar ! e o número do comando:
+ex: comando !7 irá executar o comando listado como 7 em uma lista
+Para reaproveitar o último comando: comando !!
+Pode ser utilizado filtros como no comando ls
+Comando para buscar padrões:
+comando history | grep *Padrão a buscar
+pode ser usado para um comando: ex history | grep *ls
+Para visualizar data e hora de execução dos comandos:
+É preciso alterar a variável de ambiente de tipo de exibição do comando history:
+comando export HISTTIMEFORMAT="parametro "
+*onde parametro:
+%c: Complete
+%d: Day
+%m: Month
+%y: Year
+%H: Hour
+%M: Minutes
+%S: Seconds
+%F: Full date (Y-M-D format)
+%T: Time (H:M:S Format)
+O espaço ao final do parâmetro serve para separar o texto com o nome do comando das informações
+A configuração da variável de ambiente valerá para todos os usuários
+Após essa alteração repetir o comando history e serão mostradas as informações configuradas
+Para não registrar comandos:
+Para isso é preciso alterar parâmetro de bash:
+comando set +o history
+A partir disso não serão registrados os comandos
+Entretanto, o comando set +o history será listado no histórico
+Para desfazer:
+comando set -o history
+Para apagar o histórico:
+history -c
+Para alterar a quantidade de comandos a armazenar:
+É feito através de um arquivo de configuração (arquivo oculto) que fica na pasta do usuário (~):
+comando cd /home
+comando ls -a
+comando cat .bashrc
+Alterar o parâmetro HISTSIZE para a quantidade de comandos a armazenar
+Para alterar:
+nano .bashrc
+O conteúdo anterior irá permanecer, a partir da alteração só irá armazenar 50
+Para armazenar o histórico em um arquivo:
+comando history -w
+Será salvo na pasta do usuário como .bash_history
 
