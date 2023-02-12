@@ -1,0 +1,89 @@
+1 - Distro utilizada: Ubuntu Server 22.04 LTS
+Baixar o arquivo ISO:
+Opção Manual server instalation
+
+Realizando download do Virtualbox (virtualização em infrestrutura local, no próprio computador)
+Máquina virtual: software que simula um hardware
+virtualbox.org
+Oracle VirtualBox 6.1
+
+2 - Instalando o VirtualBox
+
+
+3 - Criando máquinas virtuais
+Windows: checar configurações:
+-cmd (modo adm)
+ bcdedit
+checar configuração hypervisorlaunchtype, se estiver como auto:
+bcd edit /set hypervisorlaunchtype off
+após reiniciar o computador
+Se não aprecer hypervisorlaunchtype:
+Painel de controle-programas-ativar ou desativar recursos-habilitar plataforma do hypervisor do windows
+Após repetir a operação no cmd e verificar se aparece
+Criando a VM:
+Dar um nome
+Selecionar a qtd de RAM para a VM (Linux pode ser 512 MB)
+Criar um novo disco virtual
+Selecionar o tamanho do arquivo
+Tipo do disoc rígido: VDI (padrão do Virtualbox)
+Armazenamento em disco: dinamicamente alocado - vai sendo incrementado o tamanho do arquivo conforme vai sendo utilizado.
+Configurar rede:
+Configurações - rede - adaptador 1 - conectado a placa em modo Bridge (assim a máquina física poderá acessar a VM)
+Armazenamento - Controladora IDE - clicar no discovazio - selecionar arquivo ISO do Ubuntu que foi baixado
+Iniciar a VM:
+Caso não inicie a VM, pode ser que na BIOS do computador esteja desativada a virtualização
+
+4 - Instalando Linux Ubuntu em MV
+Ao iniciar a VM o SO será executado na janela aberta
+A interface é por linha de comando via teclado
+Definir teclado para ABNT2 (português Brazil)
+Fazer os setups (deixar os padrões, será feito manualmente alterações)
+Ao terminar de instalar:
+Dispositivos - discos ópticos - remover disco do drive virtual (para evitar que a instalação seja feita novamente)
+Reiniciar a VM (reboot now ou Máquina - reiniciar)
+Ao iniciar:
+digitar o nome de usuário
+digitar a senha
+
+5 - Desligando máquina virtual - salvar estado
+Para desligar:
+Como se estivesse desligando o computador (no caso a VM): shutdown 0
+Salvando status da VM: fechar a janela da VM - selecionar salvar o estado da máquina (ao iniciar será restaurado o status, sem refazer todo o processo de boot)
+
+6 - Criando uma conta na AWS
+A conta na AWS permite criar uma VM na nuvem, com alguns serviços gratuitos por 1 ano
+(Também existem Azure da Microsoft, Google Cloud, Oracle...)
+
+7 - AWS - Criando uma máquina virtual em nuvem (EC2)
+Pesquisar por EC2
+Executar instância - iniciar uma estância
+Dar um nome para a VM
+Selecionar a imagem do SO
+Selecionar uma opção de imagem qualificada para o nível gratuito
+Par de chaves:
+Criar novo par de chaves
+Dar um nome
+Tipo de par de chaves (tipo de criptografia): RSA
+Formato de arquivo de chave perdida: .pem (para acesso remoto via Linux) ou .ppk (windows)
+Configuração de rede: não precisa modificar
+Firewall: criar grupo de segurança - permitir tráfego de SSH - Qualquer lugar
+Executar instância
+
+8 - Utilizando o WSL (Ou utilizar o VirtualBox ou o WSL!)
+Recurso do windows do 10 e 11 (subsistema do windows para Linux)
+Permite que desenvolvedores executem um ambiente GNU/Linux diretamente no Windows (sem VM e sem dual boot)
+Versão do windows deve ser PRO!
+Painel de controle:
+programas-ativar ou desativar recursos-
+habilitar plataforma de máquina virtual
+habilitar plataforma do hypervisor do windows
+habilitar subsistema de windows para Linux
+Reiniciar computador
+Baixar e atualizar o pacote de atualização do kernel do Linux
+Reiniciar computador
+checar configuração hypervisorlaunchtype, se estiver como off:
+-cmd (modo adm)
+bcdedit
+bcd edit /set hypervisorlaunchtype auto
+reiniciar o computador
+Baixar aplicativo Ubuntu na Microsoft Store

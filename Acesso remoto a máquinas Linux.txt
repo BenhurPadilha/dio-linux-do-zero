@@ -1,0 +1,43 @@
+1 - Acesso remoto via windows:
+É necessário configurar o serviço open SSH na VM:
+comando: apt-get install openssh-server
+Se ocorrer erro de permissão: sudo apt-get install openssh-server
+É necessário conhecer o IP da máquina virtual:
+comando: ip a
+Baixar o software putty:
+putty.exe e puttygen.exe
+Abrir o executável
+Colocar o IP verificado da VM
+Port=22
+connection type=SSH
+Open
+
+2 - Acesso remoto via Linux
+Não é necessário instalar o putty
+No terminal:
+comando: ssh "Nome do usuário na máquina de destino"@"IP da VM"
+confirmar (digitar yes)
+informar a senha de usuário
+
+3 - Acessando uma máquina virtual em nuvem pelo windows(Putty)
+Para acessar a VM, será necessário um certificado (arquivo .pem baixado na criação da VM) - é preciso converter para .ppk
+Abrir o executável puttygen
+load - selecionar o arquivo baixado (.pem) - save private key (type of key: RSA)
+No putty:
+Connection - Auth - Browse - Selecionar o arquivo .ppk criado
+Entrar na instância criada na AWS
+Copiar o ipv4 público
+Session - Inserir o IP da VM
+Open
+(usuário padrão: ubuntu, não é necessário senha)
+
+4 - Acessando uma máquina virtual em nuvem pelo Linux (ssh)
+Não é necessário instalar o putty
+No terminal:
+Abrir na pasta onde está o arquivo .pem
+comando: ssh -i Nome do arquivo.pem ubuntu@IP da VM
+(se ocorrer erro: comando: sudo chmod 600 Nome do arquivo.pem)
+
+5 - Excluindo uma instância na AWS
+Instâncias - Estado da instância - Encerrar instância
+
