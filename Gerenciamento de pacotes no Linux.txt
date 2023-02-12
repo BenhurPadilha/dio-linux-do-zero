@@ -1,0 +1,64 @@
+Gerenciamento de pacotes
+
+1 - Gerenciamento de pacotes UUBUNTU-DEBIAN)
+Um pacote pode ser um software, um driver, um  codec...
+Cada distribuição Linux tem seu repositório oficial
+Pode-se adicionar repositórios externos (ex Microsoft)
+Distribuições baseadas no ubuntu e no debian terão os mesmos comandos
+Podem ser usados os comandos apt e apt-get
+o comando apt-get é um comando de mais baixo nível
+sintaxe: apt-get [opções] comando desejado (install, update, upgrade...)
+o comando apt é um comando mais "amigável"
+sintaxe: apt [opções] comando desejado (list, search, install, upgrade, upgrade...)
+Para mostrar os recursos disponíveis para serem baixados:
+comando apt list
+Para verificar o que está instalado na máquina:
+comando apt list --installed
+Para verificar se há atualizações para um software:
+comando apt list --upgradeable
+Para buscar por uma aplicação:
+comando apt search Nome da aplicação
+Para instalar um pacote:
+comando apt install Nome do pacote
+Para fazer downloads:
+comando wget Endereço do link para download
+Para descompactar um arquivo .zip
+comando unzip Nome.zip
+Para descompactar um arquivo .rar
+comando unrar Nome.zip
+Para desinstalar:
+comando apt remove Nome a remover
+Usando o parâmetro -y junto do comando, não serão solicitadas confirmações:
+comando apt remove Nome a remover -y
+Para adicionar um repositório:
+comando apt edit-sources
+
+2 - Atualização do sistema operacional
+Para um servidor em execução é importante testar antes de aplicar atualizações (utilizar um ambiente de testes)
+Criar screenshot do sistema no virtualbox
+*Para restaurar um estado a VM deve estar desligada
+Primeiro fazer update dos pacotes disponíveis:
+comando apt update
+Para atualizar:
+comando apt upgrade
+
+3 - Instalação de pacotes no ambiente desktop
+Os mesmos comandos do ambiente de servidor são válidos para realizar instalações via terminal
+Além disso, há a loja de aplicativos para realizar instalações via ambiente gráfico
+
+4 - Gerenciamento de pacotes (FEDORA, REDHAT CentOS)
+No putty, em connection - ssh - Auth: indicar o arquivo baixado do private key (.ppk)
+Para logar no AWS, se a instância for Red hat, o usuário para logar é ec2-user
+Após pode alternar para root (definir senha para o root)
+Comando para atualização no Red hat dnf ou yum
+a sintaxe é similar ao apt-get
+Cuidado! O comando dnf update baixa e já realiza a instalação (não possui o comando upgrade)
+
+5 - Realizando a instalação de arquivos DEB
+Um arquivo .deb é como um executável do windows (.exe)
+Em distribuições red hat, como o Fedora, a extensão é .rpm
+Para executar um arquivo de instalação (.deb)
+Baixar o arquivo .deb
+No terminal:
+comando apt install ./Nome do arquivo
+Se não for usuário root, utilizar o sudo antes do comando

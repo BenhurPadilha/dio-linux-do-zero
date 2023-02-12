@@ -1,0 +1,121 @@
+Trabalhando com usuários
+
+1 - Criando e excluindo usuários
+Usuários podem ser criados no ambiente de servidor ou desktop
+usuários de servidor - características mais administrativas (instalação de programas, manutenção, configuração, consumir recursos, gravar arquivos)
+usuários de desktop - usuários domésticos, ficam em ambientes individualizados
+Para criar usuários:
+comando useradd Nome de logon para o usuário
+Nomes sem espaço em branco e sem acentos (pode usar . ou _)
+Para já criar pasta pessoal para o usuário (-m) e cadastrar o nome completo (-c): 
+comando useradd Nome -m -c "Nome do usário"
+Para colocar senha (ou alterar):
+comando passwd Nome do user
+para alterar o shell do usuário:
+comando chsh -s /bin/bash Nome do user
+essa config do shell deve ser feita na criação do usuário, ficando mais completa a criação:
+comando useradd Nome -m -c "Nome do usário" -s /bin/bash
+Para excluir:
+comando userdel -r -f Nome do user
+
+2 - Editando informações do usuário
+Determinar prazo de acesso para um usuário (parâmetro -e):
+comando user add Nome -m -c "Convidado) -e DD/MM/AAAA
+Parâmetro -e pode ser utilizado para definir um prazo para trocar senha:
+comando passwd Nome -e DD/MM/AAAA
+Se não for informada nenhuma data no parâmetro, o usuário será informado para alterar a senha assim que acessar
+Para editar (comando usermod):
+comando usermod Nome -parâmetro a alterar
+Para verificar os usários cadastrados no sistema:
+comando cat /etc/passwd
+
+3 - Shell Script - Criando usuários em lote
+Para definir uma senha na criação do usuário, deve-se informar a senha encriptada:
+comando useradd nome -m -c "Nome" -s /bin/bash -p $(openssl passwd -crypt SenhaDesejada)
+Para criar um script que crie vários usuários ao ser executado:
+criar um arquivo de texto com a extensão .sh
+comando nano nomeDoArquivo.sh
+Para criar um script é necessário iniciar com:
+#!/bin/bash
+após isso colocar os comandos desejados.
+exemplo de script:
+nano criar_user.sh
+#!/bin/bash
+echo "Criando usuários do sistema"
+useradd usuario_convidado -c "convidado 1" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd usuario_convidado -e
+useradd usuario_convidado2 -c "convidado 2" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd usuario_convidado2 -e
+useradd usuario_convidado3 -c "convidado 3" -s /bin/bash -m -p $(openssl passwd -crypt senha123)
+passwd usuario_convidado3 -e
+echo "Criação finalizada"
+O arquivo criado não terá permissão de execução por padrão, para liberar a execução do arquivo:
+comando chmod +x criar_user.sh
+Para executar:
+comando ./criar_user.sh
+
+4 - Adicionando usuários a grupos
+Para verificar o arquivo com os grupos no sistema:
+comando cat /etc/group
+Grupos importantes: sudo, adm
+Para adicionar um usuário a grupos:
+comando usermod -G grupo1,grupo2 Nome do usuário
+Como visto, é possível inserir em mais de grupo por vez
+*com o comando -G o usuário irá para os grupos indicados, sendo removido de todos os grupos em que estava anteriormente
+Para que o usuário não seja removido dos grupos a que pertencia anteriormente, esses grupos devem ser indicados no comando
+Para remover um usuário de um grupo:
+comando gpasswd -d Nome do usuário Nome do grupo
+Para efetivar as alterações fazer logoff e entrar novamente no sistema
+
+5 - Criando novos grupos
+Grupos podem ser criados para agrupar usuários com permissões distintas
+Todos os usuários de um grupo terão as permissões aplicadas ao grupo ao qual pertencem
+Para criar um grupo:
+comando groupadd Nome do grupo
+Na criação do usuário já é possível inseri-lo em um grupo:
+comando useradd nome -m -c "Nome" -s /bin/bash -p $(openssl passwd -crypt SenhaDesejada) -G Nome do grupo
+Para excluir um grupo:
+comando groupdel Nome do grupo
+
+6 - Conhecendo o sistema de permissões
+Ao dar um comando ls -l as permissões são mostradas para cada objeto
+d|rwx|rwx|rwx
+tipo_do_arquivo|dono|grupo|outros
+Primeiro caractere: indicada o tipo do objeto
+d diretório
+- arquivo
+l link
+b dispositivo de bloco (hd)
+c dispositivo de caractere
+A partir do segundo caractere: 3 blocos (bloco dono, bloco grupo e bloco outros)
+tipo_do_arquivo|dono|grupo|outros
+d|rwx|rwx|rwx
+r Leitura (read)
+w Gravação (write)
+x Execução (Execute)
+- Sem permissão
+Bloco outros referencia a permissões para usuários que não são o dono e nem estão no grupo
+As permissões não se aplicam ao usuário root
+Para definir um usuário como dono de um diretório (alterar dono e grupo do diretório):
+comando chown Nome do usuário:Nome do grupo /Nome do diretório/
+
+7 - Alterando as permissões de um diretório - arquivo
+Para alterar as permissões, usa-se base numérica no comando para indicar as pemissões:
+leitura = 4
+gravação = 2
+execução = 1
+nenhuma = 0
+no comando somam-se os valores de permissão para cada bloco: exemplo, para definir todas as permissões para todos os blocos, o valor será 777
+comando chmod Valor total da soma das permissões para cada bloco /Nome do diretório/
+Para alterar permissões de um arquivo específico:
+comando chmod Valor total da soma das permissões para cada bloco Nome do arquivo.extensão
+Pode ser criada uma pasta pública e definir as permissões como 777
+Para remover permissões, utiliza-se o comando chmod removendo da soma o valor das permissões que se quer remover
+Outra forma de adicionar uma permissão a um arquivo para um usuário:
+comando chmod +Letra da permissão (r,w,x) Nome do arquivo.extensão
+Para remover uma permissão a um arquivo para um usuário:
+comando chmod -Letra da permissão (r,w,x) Nome do arquivo.extensão
+
+8 - Entendendo melhor as permissões de execução para scripts
+Por padrão a execução de scripts não é permitida
+Para executar um script deve-se alterar as permissões

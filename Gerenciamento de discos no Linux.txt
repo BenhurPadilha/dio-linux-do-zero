@@ -1,0 +1,71 @@
+Gerenciamento de discos
+
+1 - Discos, sistemas de arquivos e partições
+Sistema de arquivos é um padrão, uma forma como o sistema operacional usa para controlar como os dados são armazenados e recuperados.
+Cada SO possui um sistema de arquivos diferente:
+MacOS - HFS
+Unix / Linux - Ext3, Ext4, XFS
+Windows - FAT32, NTFS
+De um modo geral, o particionamento é a divisão de um disco em partes. Cada parte ou partição é independente da outra.
+Cada partição pode ter um sistema de arquivos diferente.
+No Windows cada partição é reconhecida como uma unidade e nomeada como uma letra: C, D, E, etc
+No Linux cada disco recebe um nome iniciado por sd
+sda, sdb, sdc…
+Cada partição do disco é numerada. Exemplo:
+sda1, sda2, sda3
+sdb1, sdb2…
+
+2 - Adicionando um novo disco
+Para visualizar os discos disponíveis:
+comando lsblk
+Outra forma para verificar os discos:
+comando fdisk -l
+Para adicionar um novo disco na VM:
+*Desligar a VM caso esteja ligada
+-Armazenamento - Controladora: SATA - adicionar disco rígido
+-Extensão:VDI
+-Dinamicamente alocado
+Após criado, logar e utilizar o comando para visualizar o disco na VM
+Para poder utilizar esse disco criado é preciso criar partições e formatá-lo
+
+3 - Particionando e formatando discos via terminal
+*Cuidar com o nome do disco!
+Para criar partições:
+comando fdisk /Caminho/Nome do disco (exemplo: fdisk /dev/sdb)
+O terminal irá solicitar o comando para o fdisk
+Para ajuda com as opções teclar m
+O comando no fdisk para adicionar é o n
+Partição primária: o disco terá apenas uma partição
+Número da partição
+First sector: (apenas dar um Enter)
+Last sector: (apenas dar um Enter)
+Para salvar as alterção do fdisk:
+w + Enter
+Para formatar o disco:
+Para formatar, deve ser informado qual sistema de arquivos será utilizado:
+comando mkfs.Tipo do sistema de arquivos /Caminho/Nome do disco (exemplo: mkfs.ext4 /dev/sdb)
+
+4 - Montando e desmontando discos
+Para montar um disco é preciso informar um diretório
+pode ser criado um diretório no diretório /mnt
+exemplo: cd /mnt/
+mkdir disco2
+Para montar um disco na pasta do exemplo:
+comando mount /dev/sdb /mnt/disco2/
+Tudo que for salvo nesse diretório será salvo no disco sdb
+Para desmontar um disco:
+comando umount /dev/sdb
+Um disco pode ser montado e desmontado a qualquer momento
+Se o disco estiver desmontado, a pasta pode até ser apagada que os dados do disco não serão afetados
+Com o disco montado seria excluído do disco
+
+5 - Montando discos automaticamente
+Para que um disco seja sempre reconhecido pelo sistema (montado automaticamente):
+Editar o arquivo de configuração:
+comando nano /etc/fstab
+Indicar o disco, diretório onde será montado, o tipo de arquivos e mais os parâmetros padrão: defaults 0 0:
+No exemplo do disco criado anteriormente:
+/dev/sdb /disk2 ext4 defaults 0 0
+Para salvar ctrl+o
+ctrl+x para sair do nano
+reiniciar a máquina e verificar se o disco foi montado automaticamente
