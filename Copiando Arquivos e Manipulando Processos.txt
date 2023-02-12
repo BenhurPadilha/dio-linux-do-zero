@@ -1,0 +1,67 @@
+Manipulação de arquivos
+
+1 - Copiando arquivos
+Pontos a considerar:
+Origem (de onde será copiado)
+Cuidar quais são os arquivos que serão copiados
+Destino (para onde será copiado)
+Para realizar cópias de arquivos:
+comando cp /Caminho de origem/Nome do arquivo.extensão /Caminho de destino
+exemplo:
+comando cp /home/usuario/arquivo.pdf /diretoriodestino/
+Para copiar todos arquivos de um diretório:
+comando cp /home/usuario/* /diretoriodestino/
+*Se houverem diretórios dentro do diretório de origem, para copiá-los junto utilizar o parâmetro -r:
+comando cp /home/usuario/* /diretoriodestino/ -r
+Usando parâmetros diferentes pode-se copiar mais de um arquivo:
+exemplo, para copiar todos arquivos com extensão .pdf:
+comando cp /home/usuario/*pdf /diretoriodestino/
+Se já estiver na pasta onde está o arquivo, não é necessário indicar todo o caminho até o arquivo
+Só é preicso indicar ./Nome do arquivo.extensão após o comando cp:
+comando cp ./arquivo.pdf /diretoriodestino/
+*Se já exixtir um arquivo com o mesmo nome no diretório de destino, será sobreposto o arquivo no destino!
+Ao utilizar o parâmetro -i junto ao comando cp será perguntado se deseja sobrepor os arquivos no destino com nome igual a algum arquivo da origem
+comando cp /home/usuario/* /diretoriodestino/ -i
+Para ativar o modo verboso utilizar o parâmetro -v
+Com esse parâmetro será mostrado tudo que está sendo efetuado no comando
+comando cp /home/usuario/* /diretoriodestino/ -r -v
+
+2 - Renomeando e movendo arquivos
+Pontos a considerar:
+Origem (de onde será movido
+Cuidar quais são os arquivos que serão movidos
+Destino (para onde será movidos)
+Para mover de arquivos:
+comando mv /Caminho de origem/Nome do arquivo.extensão /Caminho de destino
+exemplo:
+comando mv /home/usuario/arquivo.pdf /diretoriodestino/
+Parâmetros -i e -v podem ser utilizados igual ao comando cp
+Não há o parâmetro -r (recursivo) para o comando mv
+Pode ser movido o arquivo alterando seu nome, indicando o novo nome junto do caminho do diretório de destino:
+comando mv /home/usuario/arquivo.pdf /diretoriodestino/novo_nome_do_arquivo.pdf
+Para renomear um arquivo, utiliza-se o comando mv seguido do nome atual do arquivo e após o novo nome:
+comando mv arquivo.pdf novo_nome_do_arquivo.pdf
+
+3 - Iniciando, visualizando e encerrando um processo
+Comando para visualizar umprocesso em execução:
+comando ps
+Sozinho, esse comando só mostra processos do terminal (não inclui ambiente gráfico) e do usuário atual
+Com o parâmetro a mostra de todos os usuários
+Parâmetro u mostra o nome do usuário e o horário que iniciou o processo
+Parãmetro x mostra os processos executados fora do console, incluindo ambiente gráfico
+comando ps aux
+Será mostrado o nome du usuário, o ID do processo e outras informações
+Para encerrar um processo:
+comando kill ID do processo
+ex kill 12345
+Se houverem vários processos e não se souber qual o ID exatro, pode-se encerrar todos os processos relacionados a um indicado:
+comando killall Nome do processo
+exemplo: killall chrome
+Para visualizar usuários logados no servidor (executar como usuário root):
+comando w
+Para verificar qual é o PID do usuário:
+comando who -a
+Para deslogar um usuário:
+comando kill PID do usuário
+ex: kill 2311
+
