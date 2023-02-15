@@ -1,0 +1,55 @@
+Servidor de arquivos
+
+1 - Introdução ao servidor de arquivos
+Permite o acesso a arquivos por vários usuários diferentes, sendo estes arquivos salvos no servidor
+Permite gerenciamento das permissões para cada usuário
+Pode ser servidor local ou em nuvem
+Windows utiliza o protocolo SMB para compartilhamento dos arquivos no servidor
+No Linux, utiliza-se o SAMBA para esse protocolo
+O SAMBA é um software utilizado para compartilhamento de arquivos de servidor Linux para consumo em computadores Windows
+
+2 - Instalação do SAMBA e configuração inicial
+Baixar o SAMBA (samba.org)
+comando apt install samba -y
+criar um diretório público na partição destinada ao compartilhamento (mkdir publica)
+definir permissão total nesa pasta (chmod 777 publica)
+*É interessante que seja feito o compartilhamento em disco diferente do qual está instalado o sistema operacional, a fim de evitar que o sistema fique lento
+Para configurar o diretório no SAMBA:
+comando nano /etc/samba/smb.conf
+No final do arquivo especificar as configurações de compartilhamento do diretório:
+[Nome para o compartilhamento]
+Indicar o caminho para o diretório
+Liberar para usuários gravarem informações
+Todos usuários estão ok
+Todos usuários são convidados
+
+exemplo:
+[publica]
+path = /disk2/publica
+writable = yes
+guest ok = yes
+guest only = yes
+
+*O nome do compartilhamento não precisa ser o mesmo do diretório
+Após alterar o arquivo de configuração, é preciso reiniciar o serviço do SAMBA
+O SAMBA é um serviço (processo) de segundo plano (daemon), funciona ouvindo requisições e dando retorno para estas
+Para iniciar, reiniciar ou encerrar serviços de segundo plano, utiliza-se o comando systemctl:
+comando systemctl restart smbd
+Para verificar o status do serviço:
+comando systemctl status smbd
+Para definir a execução do serviço sempre que o servidor for reiniciado é preciso definir uma configuração:
+comando systemctl enable smbd
+
+3 - Configurando o acesso via máquina cliente
+O acesso é feito através do IP do servidor
+Para verificar o IP:
+comando ip a
+Para acessar o diretório compartilhado (via windows):
+\\IP\Nome do compartilhamento
+Só usuários cadastrados no sistema terão acesso a um diretório no servidor
+Para criar um caminho de rede (windows):
+Este computador - botão direito - mapear unidades de rede:
+Definir uma letra para a unidade
+Indicar o caminho para o diretório (\\IP\Nome do compartilhamento)
+Marcar a opção reconectar-se na entrada (para mapear o caminho ao ligar a máquina)
+*Em uma pasta criada com permissão total, nos arquivos salvos o usuário será definido como "nobody" e o grupo como "nogroup"
