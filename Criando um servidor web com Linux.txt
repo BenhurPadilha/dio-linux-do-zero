@@ -1,0 +1,55 @@
+Servidor WEB
+
+1 - O que é um servidor WEB
+Utiliza um protocolo (HTTP ou HTTPS) que recebe requisições de um cliente e devolve como resposta as informações
+Servidor DNS: Domain Name System (sistema de nomes de domínios)
+Por exemplo, ao digitar um endereço no browser o servidor (DNS) recebe essa requisição via protocolo HTTP ou HTTPS, verifica e retorna o IP deste endereço redirecionando para um servidor web (onde estão as informações do site, arquivos html, css e js...)
+As informações são então retornadas, resultando na exibição da página do site
+No cmd do windows, o comando ping verifica se um servidor está acessível (retorna o IP do servidor)
+Se digitar este IP no browser, o acesso ao site será feito da mesma forma que anteriormente
+
+2 - Instalando o apache2
+apache: servidor HTTP, é um software que permite a publicação de sites em servidor Linux
+Instalar o apache (no ubuntu se chama apache2)
+comando apt install apache2 -y
+Para verificar se serviço está funcionando:
+comando systemctl status apache2
+(Para sair ctrl+c)
+Para verificar se o servidor web está funcionando:
+Pegar o ip do servidor (comando ip a) e digitar no browser
+Isso abrirá a página padrão do apache, indicando se está funcionando
+Nesta página, está indicado o caminho do arquivo html (ex: /var/www/html/index.html)
+Ao acessar esse caminho pelo terminal, podemos trocar esse arquivo por um código html próprio)
+exemplo: comando cd /var/www/html/index.html
+Ao alterar esse arquivo, se atualizarmos o browser com o ip do servidor web, será carregado esse novo arquivo html
+*Essa página mostrada está acessível na rede local (localhost)
+*Um celular na mesma rede wifi pode acessar esse endereço e visualizar a página
+
+3 - Executando aplicações web em um servidor Linux
+Uma instância EC2 da AWS pode ser utilizada par atrabalhar com requisições HTTP
+Com isso essa instância pode ser usada como um servidor web
+Na criação da instância, em network settings: auto-assign public ip
+Firewall: create security group
+Allow SSH traffic from: anywhere
+Com o ip público da instância, conectar pelo putty:
+*A instância tem, além do ip público, ip DNS
+*Lembrando que por padrão em uma instância ubuntuo usuário é: ubuntu
+ao logar, alterar para usuário root (criar a senha para o root: comando sudo passwd root)
+Primeiramente é preciso atualizar o servidor
+comando apt update -y
+comando apt upgrade -y
+Após, instalar o apache2:
+comando apt install apache2 -y
+Reiniciar a VM, caso necessário:
+comando reboot
+Verificar o status do servidor (comando systemctl status apache2)
+Para a publicação de um site em uma instância na AWS, o protocolo HTTP deve ser liberado no firewall
+Para habilitar a instância para o protocolo HTTP:
+Na instância da WS: aba security - abrir o link do grupo de segurança que foi criado
+Após, selecionar a opção edit imbound rules:
+Ativar o protocolo HTTP (new rule)
+Port range 80
+Source anywhere
+salvar regras
+Ao digitar o ip da instância, o arquivo index html em /var/www/html/index.html deve ser mostrado
+*Todos os arquivos referentes à aplicação serão salvos no diretório padrão para a publicação de um site no Apache /var/www/html/ (css, js, ...)
