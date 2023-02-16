@@ -1,0 +1,39 @@
+Servidor de banco de dados
+
+1 - O que é um servidor de banco de dados
+Ao abrir um página da internet com cadastro de usuários, para realizar acessos, os dados sobre cada usuário estão guardados em um banco de dados
+O banco de dados pode estar no mesmo servidor que o site (não aconselhável) ou estar em um outro local
+Através da requisição HTTP (com o usuário e senha), o servidor web verifica no servidor com o banco de dados as informações de login:
+Requisição HTTP -> Servidor web (apache) -> banco de dados
+Exemplos de software de gerenciamento de banco de dados:
+Oracle Database
+SqlServer
+MySql Server
+Postgresql
+
+2 - Instalando o MySQL
+Instalar o MySQL no servidor:
+comando apt install mysql-server-8.0 -y
+Para logar no banco de dados como root:
+comando mysql -u root -p
+Ao logar no banco, todos os comandos SQL estarão habilitados
+Para listar os bancos de dados:
+comando show databases;
+Para criar um banco de dados:
+comando create database Nome_do_banco;
+Para acessar o banco criado:
+comando use Nome_do_banco;
+Para criar uma tabela:
+comando create table Nome_da_tabela (atributos);
+exemplo: create table Pessoas (PesooaID int, Nome varchar(50), Sobrenome varchar(50), Endereco varchar(100), Cidade varchar(50));
+Para listar as tabelas:
+comando show tables;
+Para verificar os dados dentro da tabela:
+comando select * FROM Nome_da_tabela;
+exemplo: select * FROM Pessoas;
+Para inserir dados na tabela:
+comando insert into Nome_da_tabela (campos) VALUES (valores);
+exemplo: insert into Pessoas (PessoaID, Nome, Sobrenome, Endereco, Cidade) VALUES (1, 'Carlos', 'da Silva', 'Av GGG, 741', 'Salavador-BA');
+Para sair do banco:
+comando exit
+*O banco de dados continua a execução em segundo plano, independente de se estar logado ou não
